@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <div class="title-under-nav">
+        <h1>Умная система <br> распознавания пожара</h1>
+        <img class="line" src="assets/line.svg" alt="">
+        <h3>Совершенно новый взгляд на предотвращение лесных пожаров</h3>
+        <button onclick="openInNewTab('/map');" class="openMap">Открыть карту</button>
+
+        <img class="arrow-under-nav" src="assets/arrow.svg" alt="">
+    </div>
+
+    <div class="cameras">
+        <h2 class="cameras-title">Камеры в режиме реального времени</h2>
+        <img src="assets/video-main.png" alt="">
+        <input class="search-bar" type="text" placeholder="Поиск по камерам">
+        <form id="upload-image-form" action="/upload" method="post" enctype="multipart/form-data">
+          <div id="image-preview-div" style="display: none">
+            <label for="exampleInputFile">Selected image:</label>
+            <img id="preview-img" src="" />
+          </div>
+          <div class="form-group">
+            <input type="file" name="file" id="file" required>
+          </div>
+          <div class="form-group pt-2">
+            <button class="btn btn-lg btn-primary" id="upload-button" type="submit" >Загрузить изображение</button>
+          </div>
+
+        </form>
+
+
+
+          <div class="cameras-row">
+            <div id="container">
+                <div id="slider">
+                  <div id="slide">
+                    <div class="content-card mr-5 alt">
+                      <div class="poster">
+                          <img class="news-poster" src="assets/video1.png" alt="">
+                      </div>
+                    </div>
+                    <div class="content-card  mr-5">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                    <div class="content-card mr-5">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                    <div class="content-card mr-5">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                    <div class="content-card mr-5">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                    <div class="content-card">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                  </div>
+        </div>
+
+
+
+        <div class="nav-buttons" id="placer">
+            <button class="left-btn nav-button" id="next-button"></button>
+            <button class="ml-3 right-btn nav-button" id="previous-button"></button>
+        </div>
+
+    </div>
+    </div>
+    </div>
+
+
+
+
+
+{% endblock %}

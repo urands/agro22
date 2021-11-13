@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container-fluid">
+      <div class="navigation-bar">
+                <img src="assets/logo.svg" alt="">
+                <button class="callOperator" type="submit">Оповещение диспетчера</button>
+      </div>
+    </div>
+
+    <div class="title-under-nav">
+        <h1>Умная система <br> распознавания пожара</h1>
+        <img class="line" src="assets/line.svg" alt="">
+        <h3>Совершенно новый взгляд на предотвращение лесных пожаров</h3>
+        <button onclick="openInNewTab('map.html');" class="openMap">Открыть карту</button>
+
+        <img class="arrow-under-nav" src="assets/arrow.svg" alt="">
+    </div>
+
+    <div class="cameras">
+        <h2 class="cameras-title">Камеры в режиме реального времени</h2>
+        <img src="assets/video-main.png" alt="">
+        <input class="search-bar" type="text" placeholder="Поиск по камерам">
+          <div class="cameras-row">
+            <div id="container">
+                <div id="slider">
+                  <div id="slide">
+                    <div class="content-card mr-5 alt">
+                      <div class="poster">
+                          <img class="news-poster" src="assets/video1.png" alt="">
+                      </div>
+                    </div>
+                    <div class="content-card  mr-5">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                    <div class="content-card mr-5">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                    <div class="content-card mr-5">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                    <div class="content-card mr-5">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                    <div class="content-card">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                  </div>  
+        </div>
+      
+
+
+        <div class="nav-buttons" id="placer">
+            <button class="left-btn nav-button" id="next-button"></button>
+            <button class="ml-3 right-btn nav-button" id="previous-button"></button>
+        </div>
+        
+    </div>
+    </div>
+    </div>
+
+    <div class="menu">
+        <div class="menu-card">
+            <button class="rect">
+                <img class="bot-img" src="assets/bot.svg" alt="">
+                <h3 class="h3-menu">Подключить бота</h3>
+            </button>
+        </div>
+        <div class="menu-card">
+            <button onclick="openInNewTabOne('analytics.html');" class="rect">
+                <img class="video-img" src="assets/multimedia.svg" alt="">
+                <h3 class="h3-menu">Анализ видео</h3>
+            </button>
+        </div>
+        <div class="menu-card">
+            <button onclick="openInNewTabTwo('statistics.html');" class="rect">
+                <img class="video-img" src="assets/analytics.svg" alt="">
+                <h3 class="h3-menu">Просмотр статистики</h3>
+            </button>
+        </div>
+    </div>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+
+function openInNewTab(url) {
+ window.open(url).focus();
+}
+
+function openInNewTabOne(url) {
+ window.open(url).focus();
+}
+
+function openInNewTabTwo(url) {
+ window.open(url).focus();
+}
+
+
+        containerWidth = document.getElementById("container").clientWidth;
+nextButton = document.getElementById("next-button");
+previousButton = document.getElementById("previous-button");
+slide = document.getElementById("slide");
+
+firstCardLeftMargin = 10;
+cardWidthAndRightMargin = 120 + 10;
+totalWidth = slide.clientWidth;
+
+const transformSlide = (val) => {
+  slide.style.transform = `translate(${val}px,0px)`;
+};
+
+const getCurrentPosition = () => {
+  const stringValue = slide.style.transform;
+  const transformValue = stringValue.substring(
+    stringValue.indexOf("(") + 1,
+    stringValue.lastIndexOf("p")
+  );
+  return transformValue ? parseInt(transformValue) : 0;
+};
+
+const getNextPosition = () => {
+
+  const currentPosition = getCurrentPosition();
+
+  const lastVisiblePixel = containerWidth + -1 * currentPosition;
+
+  const lastFullyVisibleCard = Math.floor(
+    (lastVisiblePixel - firstCardLeftMargin) / cardWidthAndRightMargin
+  );
+
+  const distanceToNextCard =
+    lastFullyVisibleCard * cardWidthAndRightMargin + firstCardLeftMargin;
+  if (distanceToNextCard + containerWidth > totalWidth) {
+    return totalWidth - containerWidth + firstCardLeftMargin;
+  }
+  return distanceToNextCard - 10;
+};
+
+const getPreviousPosition = () => {
+  const currentPosition = getCurrentPosition(); 
+
+  const firstPartiallyVisibleCard = Math.floor(
+    (-1 * currentPosition - firstCardLeftMargin) / cardWidthAndRightMargin
+  );
+
+  const distanceToCardEndFromSlideStart =
+    firstPartiallyVisibleCard * cardWidthAndRightMargin + firstCardLeftMargin;
+
+  const distanceNeeded = distanceToCardEndFromSlideStart - containerWidth;
+
+  if (distanceNeeded > 0) {
+    return -distanceNeeded;
+  }
+
+  return 0;
+};
+
+nextButton.addEventListener("click", (event) => {
+  transformSlide(-getNextPosition());
+});
+
+previousButton.addEventListener("click", (event) => {
+  transformSlide(getPreviousPosition());
+});
+
+    </script>
+</body>
+</html>
