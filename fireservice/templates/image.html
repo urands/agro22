@@ -3,27 +3,22 @@
 
     <div class="cameras">
         <h2 class="cameras-title">Камеры в режиме реального времени</h2>
-        <img src="/images/{{ image }}" alt="" style="width: 680px;height: 380px;">
+        {% if image and not video %}
+        <img src="/images/{{ image }}" alt="image" style="width: 880px;height: 480px;">
+        {% else %}
+        <!-- <img src="assets/video-main.png" alt="" /> -->
+            {% if video %}
+                <img src="http://31.148.136.80:8080/video_pipe" alt="video" style="width: 880px;height: 480px; />
+            {% endif %}
+        {% endif %}
         <input class="search-bar" type="text" placeholder="Поиск по камерам">
-<form id="upload-image-form" action="/upload" method="post" enctype="multipart/form-data">
-          <div id="image-preview-div" style="display: none">
-            <label for="exampleInputFile">Selected image:</label>
-            <img id="preview-img" src="" />
-          </div>
-          <div class="form-group">
-            <input class="btn btn-lg" type="file" name="file" id="file" required>
-          </div>
-          <div class="form-group pt-2">
-            <button class="btn btn-lg btn-primary" id="upload-button" type="submit" >Загрузить изображение</button>
-          </div>
-</form>
           <div class="cameras-row">
-            <div id="container">
+            <div id="container" style="display: none;">
                 <div id="slider">
                   <div id="slide">
                     <div class="content-card mr-5 alt">
                       <div class="poster">
-                          <img class="news-poster" src="/images/{{ image }}" alt="">
+                          <img class="news-poster" src="assets/video1.png" alt="">
                       </div>
                     </div>
                     <div class="content-card  mr-5">
@@ -63,10 +58,16 @@
 
     </div>
     </div>
+
+        <div class="upload-video">
+        <a name="upload"><h3>Загрузите видео или картинку для проверки на наличие возгораний</h3></a>
+        <br>
+            <form id="upload-image-form" action="/upload" method="post" enctype="multipart/form-data">
+                <input id="file-upload" type="file" name="file"/>
+                <button class="openMap" id="" type="submit">Обработать</button>
+
+            </form>
+      </div>
     </div>
-
-
-
-
 
 {% endblock %}
