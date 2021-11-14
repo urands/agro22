@@ -28,7 +28,10 @@ var myMap = new ymaps.Map('map', {
 
 }
 ),
-        polygon = new ymaps.Polygon([], {}, {
+        polygon = new ymaps.Polygon(
+             [ [ [ 52.3317, 95.8935 ], [ 51.9073, 95.6380 ], [ 52.0870, 96.3412 ], [ 52.3317, 95.8935 ] ] ]
+
+            , {}, {
             // Курсор в режиме добавления новых вершин.
             editorDrawingCursor: "crosshair",
             // Максимально допустимое количество вершин.
@@ -44,7 +47,7 @@ myPlacemark = new ymaps.Placemark(myMap.getCenter());
 
 myMap.geoObjects.add(myPlacemark);
 myMap.geoObjects.add(polygon);
-polygon.editor.startDrawing();
+//polygon.editor.startDrawing();
 
 
 polygon.events.add([
@@ -58,11 +61,15 @@ polygon.events.add([
 $('input').attr('disabled', false);
 
     // Обработка нажатия на любую кнопку.
-    $('input').click(
+    $('#startEditPolyline').click(function () {
+        polygon.editor.startDrawing();
+        $('#stopEditPolyline').attr('disabled', false);
+    });
+    $('#stopEditPolyline').click(
         function () {
             // Отключаем кнопки, чтобы на карту нельзя было
             // добавить более одного редактируемого объекта (чтобы в них не запутаться).
-            $('input').attr('disabled', true);
+            $('#stopEditPolyline').attr('disabled', true);
 
             polygon.editor.stopEditing();
 

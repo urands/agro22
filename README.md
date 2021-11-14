@@ -6,9 +6,9 @@
 
 <h4>Реализованная функциональность</h4>
 <ul>
-    <li>Функционал 1;</li>
-    <li>Функционал 2;</li>
-    <li>Функционал 3;</li>
+    <li>Обнаружение возгорания по видео и изображению;</li>
+    <li>Реализован веб сервис для работы с нейронной сетью;</li>
+    <li>Реализовано оповещение через телеграм;</li>
 </ul> 
 <h4>Особенность проекта в следующем:</h4>
 <ul>
@@ -18,31 +18,24 @@
  </ul>
 <h4>Основной стек технологий:</h4>
 <ul>
-    <li>LAMP/LEMP/FAMP/FEMP.</li>
-	<li>HTML, CSS, JavaScript, TypeScript.</li>
-	<li>PHP 7, MySQL.</li>
-	<li>Symfony, Laravel, Zend Framework, Yii, Kohana.</li>
-	<li>LESS, SASS, PostCSS.</li>
-	<li>Gulp, Webpack, Babel.</li>
-	<li>БЭМ.</li>
-	<li>React (Next.js), Vue (Nuxt.js), Angular.</li>
-	<li>Git, Mercurial.</li>
-	<li>Jenkins, Gitlab.</li>
+    <li>Python (Flask, Pytorch, Aiogram)</li>
+	<li>HTML, CSS, JavaScript</li>
+	<li>Nginx, Postrgee.</li>
   
  </ul>
 <h4>Демо</h4>
-<p>Демо сервиса доступно по адресу: http://demo.test </p>
-<p>Реквизиты тестового пользователя: email: <b>testuser@test.ru</b>, пароль: <b>testuser</b></p>
+<p>Демо сервиса доступно по адресу: http://31.148.136.80/ </p>
+
 
 
 
 
 СРЕДА ЗАПУСКА
 ------------
-1) развертывание сервиса производится на debian-like linux (debian 9+);
-2) требуется установленный web-сервер с поддержкой PHP(версия 7.4+) интерпретации (apache, nginx);
-3) требуется установленная СУБД MariaDB (версия 10+);
-4) требуется установленный пакет name1 для работы с...;
+1) развертывание сервиса производится на windows 10;
+2) требуется установленный Python 3.9, MS Visual Studio, CMake ;
+3) требуется установленная NVidia CUDA SDK Tookit 11.5, CuDNN 8.5;
+4) требуется установленный пакет pipenv;
 
 
 УСТАНОВКА
@@ -51,46 +44,29 @@
 
 Выполните 
 ~~~
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install name1
-sudo apt-get install mariadb-client mariadb-server
 git clone https://github.com/Sinclear/default_readme
-cd default_readme
+cd firedetector
+pipenv install 
+cd ../fireservice
+pipenv install 
 ...
 ~~~
-### База данных
+### Сборка библиотек
 
-Необходимо создать пустую базу данных, а подключение к базе прописать в конфигурационный файл сервиса по адресу: папка_сервиса/...
-~~~
-sudo systemctl restart mariadb
-sudo mysql_secure_installation
-mysql -u root -p
-mypassword
-CREATE DATABASE mynewdb;
-quit
-~~~
-### Выполнение миграций
+Сборка библиотек осуществляется по инструкции
 
-Для заполнения базы данных системной информацией выполните в корневой папке сервиса: 
-~~~
-mysql -u root -p -f mynewdb < папка_сервиса/...
-mypassword
-~~~
-и согласитесь с запросом
+https://github.com/AlexeyAB/darknet/tree/4b35dbbf9a0608a928ea92f58fc83408464f86ce#how-to-compile-on-windows-using-cmake
 
-### Установка зависимостей проекта
+### Запуск
 
-Установка зависимостей осуществляется с помощью [Composer](http://getcomposer.org/). Если у вас его нет вы можете установить его по инструкции
-на [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
+Два независмых сервиса
+1. cd firedetector && pipenv run python app.py 
+1. cd fireservice && pipenv run python app.py
 
-После этого выполнить команду в директории проекта:
-
-~~~
-composer install
-~~~
 
 РАЗРАБОТЧИКИ
 
-<h4>Иванов Иван fullstack https://t.me/test@name1 </h4>
++ Беллавин Юрий fullstack https://t.me/urands 
++ Новикова Лиза фронтэнд https://t.me/livergara 
++ Элина Барна дизайн https://t.me/elyaaabv
 

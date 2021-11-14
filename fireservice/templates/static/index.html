@@ -5,39 +5,99 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
+   
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="container-fluid">
       <div class="navigation-bar">
-          <a href="/">
-                    <img src="assets/logo.svg" alt=""></a>
+                <img src="assets/logo.svg" alt="">
                 <button class="callOperator" type="submit">Оповещение диспетчера</button>
       </div>
     </div>
 
+    <div class="title-under-nav">
+        <h1>Умная система <br> распознавания пожара</h1>
+        <img class="line" src="assets/line.svg" alt="">
+        <h3>Совершенно новый взгляд на предотвращение лесных пожаров</h3>
+        <button onclick="openInNewTab('map.html');" class="openMap">Открыть карту</button>
+
+        <img class="arrow-under-nav" src="assets/arrow.svg" alt="">
+    </div>
+
+    <div class="cameras">
+        <h2 class="cameras-title">Камеры в режиме реального времени</h2>
+        <img src="assets/video-main.png" alt="">
+       
+        <input class="search-bar" type="text" placeholder="Поиск по камерам">
+      
+   
+          <div class="cameras-row">
+            <div id="container">
+                <div id="slider">
+                  <div id="slide">
+                    <div class="content-card mr-5 alt">
+                      <div class="poster">
+                          <img class="news-poster" src="assets/video1.png" alt="">
+                      </div>
+                    </div>
+                    <div class="content-card  mr-5">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                    <div class="content-card mr-5">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                    <div class="content-card mr-5">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                    <div class="content-card mr-5">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                    <div class="content-card">
+                        <div class="poster">
+                            <img class="news-poster" src="assets/video1.png" alt="">
+                        </div>
+                    </div>
+                  </div>  
+        </div>
+      
 
 
-    {% block content %}
-
-    {% endblock %}
+        <div class="nav-buttons" id="placer">
+            <button class="left-btn nav-button" id="next-button"></button>
+            <button class="ml-3 right-btn nav-button" id="previous-button"></button>
+        </div>
+        
+    </div>
+    </div>
+    <div class="upload-video">
+    <h3>Загрузите видео для проверки на наличие возгораний</h3>
+    <br>
+    <input id="file-upload" type="file"/>
+  </div>
+    </div>
 
     <div class="menu">
         <div class="menu-card">
-            <a href="https://t.me/FireVision_DragonIT_bot">
             <button class="rect">
                 <img class="bot-img" src="assets/bot.svg" alt="">
                 <h3 class="h3-menu">Подключить бота</h3>
             </button>
-                </a>
         </div>
         <div class="menu-card">
-            <a href="#upload"><button  class="rect">
+            <button onclick="openInNewTabOne('analytics.html');" class="rect">
                 <img class="video-img" src="assets/multimedia.svg" alt="">
                 <h3 class="h3-menu">Анализ видео</h3>
-            </button></a>
+            </button>
         </div>
         <div class="menu-card">
             <button onclick="openInNewTabTwo('statistics.html');" class="rect">
@@ -106,7 +166,7 @@ const getNextPosition = () => {
 };
 
 const getPreviousPosition = () => {
-  const currentPosition = getCurrentPosition();
+  const currentPosition = getCurrentPosition(); 
 
   const firstPartiallyVisibleCard = Math.floor(
     (-1 * currentPosition - firstCardLeftMargin) / cardWidthAndRightMargin
