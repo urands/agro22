@@ -25,7 +25,6 @@ import math
 import random
 import os
 
-print("Run: darknet_images.py or:\n")
 print("python.exe darknet_video.py --data_file cfg/coco.data --config_file cfg/yolov4.cfg --weights yolov4.weights --input test.mp4 \n")
 
 os.add_dll_directory('c:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.5/bin')
