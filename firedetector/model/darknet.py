@@ -28,6 +28,10 @@ import os
 print("Run: darknet_images.py or:\n")
 print("python.exe darknet_video.py --data_file cfg/coco.data --config_file cfg/yolov4.cfg --weights yolov4.weights --input test.mp4 \n")
 
+os.add_dll_directory('c:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.5/bin')
+os.add_dll_directory(os.path.dirname(__file__))
+
+
 class BOX(Structure):
     _fields_ = [("x", c_float),
                 ("y", c_float),

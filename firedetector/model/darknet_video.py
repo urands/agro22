@@ -3,14 +3,27 @@ import random
 import os
 import cv2
 import time
-import darknet
+import model.darknet as darknet
 import argparse
 from threading import Thread, enumerate
 from queue import Queue
+#from multiprocessing import Queue
+import base64
 
+
+video_queue = Queue()
+
+cap = None
+args = None
+video_width = 0
+video_height = 0
+darknet_width = 0
+darknet_height = 0
 
 def parser():
     parser = argparse.ArgumentParser(description="YOLO Object Detection")
+    parser.add_argument("--pipe", type=str, default=0,
+                        help="video pipe. If empty, uses webcam 0 stream")
     parser.add_argument("--input", type=str, default=0,
                         help="video source. If empty, uses webcam 0 stream")
     parser.add_argument("--out_filename", type=str, default="",
@@ -124,19 +137,19 @@ def inference(darknet_image_queue, detections_queue, fps_queue):
     while cap.isOpened():
         darknet_image = darknet_image_queue.get()
         prev_time = time.time()
-        detections = darknet.detect_image(network, class_names, darknet_image, thresh=args.thresh)
+        detections = darknet.detect_image(network, class_names, darknet_image, thresh=0.25)
         detections_queue.put(detections)
         fps = int(1/(time.time() - prev_time))
         fps_queue.put(fps)
         print("FPS: {}".format(fps))
-        darknet.print_detections(detections, args.ext_output)
+        darknet.print_detections(detections, None)
         darknet.free_image(darknet_image)
     cap.release()
 
 
 def drawing(frame_queue, detections_queue, fps_queue):
     random.seed(3)  # deterministic bbox colors
-    video = set_saved_video(cap, args.out_filename, (video_width, video_height))
+    #video = set_saved_video(cap, None , (video_width, video_height))
     while cap.isOpened():
         frame = frame_queue.get()
         detections = detections_queue.get()
@@ -147,37 +160,78 @@ def drawing(frame_queue, detections_queue, fps_queue):
                 bbox_adjusted = convert2original(frame, bbox)
                 detections_adjusted.append((str(label), confidence, bbox_adjusted))
             image = darknet.draw_boxes(detections_adjusted, frame, class_colors)
-            if not args.dont_show:
-                cv2.imshow('Inference', image)
-            if args.out_filename is not None:
-                video.write(image)
+            #time.sleep(0.01)
+            ret, jpeg = cv2.imencode('.jpg', image)
+            video_queue.put({'image':jpeg, 'detections': detections})
+            #if not args.dont_show:
+            #    cv2.imshow('Inference', image)
+            #if args.out_filename is not None:
+            #    video.write(image)
             if cv2.waitKey(fps) == 27:
                 break
+    time.sleep(2)
     cap.release()
-    video.release()
+    #video.release()
     cv2.destroyAllWindows()
+    print('darknet video py COOL')
 
 
-if __name__ == '__main__':
+
+
+
+def maincc(filename = None):
+    global video_width, cap, video_height, darknet_width, darknet_height
+    global network, class_names, class_colors
+
+
+
+    os.add_dll_directory('c:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.5/bin')
+    os.add_dll_directory(os.path.dirname(__file__))
+    if filename == None:
+        filename = 'data/video/00025.mp4'
+    #input_path = str2int(args.input)
+    input_path = str2int(filename)
+    cap = cv2.VideoCapture(input_path)
+
     frame_queue = Queue()
     darknet_image_queue = Queue(maxsize=1)
     detections_queue = Queue(maxsize=1)
     fps_queue = Queue(maxsize=1)
 
-    args = parser()
-    check_arguments_errors(args)
+    
+    #check_arguments_errors(args)
+    #network, class_names, class_colors = darknet.load_network(
+    #        args.config_file,
+    #        args.data_file,
+    #        args.weights,
+    #        batch_size=1
+    #    )
+
+
+
     network, class_names, class_colors = darknet.load_network(
-            args.config_file,
-            args.data_file,
-            args.weights,
+            'model/cfg/yolov4-tiny-obj-test.cfg',
+            'model/data/obj.data',
+            'model/weight/yolov4-tiny-obj_470000.weights',
             batch_size=1
         )
+
     darknet_width = darknet.network_width(network)
     darknet_height = darknet.network_height(network)
-    input_path = str2int(args.input)
-    cap = cv2.VideoCapture(input_path)
+
+    
+
     video_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     video_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     Thread(target=video_capture, args=(frame_queue, darknet_image_queue)).start()
     Thread(target=inference, args=(darknet_image_queue, detections_queue, fps_queue)).start()
     Thread(target=drawing, args=(frame_queue, detections_queue, fps_queue)).start()
+
+if __name__ == '__main__':
+    args = parser()
+    video_width = 0
+    video_height = 0
+    darknet_width = 0
+    darknet_height = 0
+
+    maincc()
