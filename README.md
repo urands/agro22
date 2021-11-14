@@ -20,6 +20,7 @@
 <h4>Основной стек технологий:</h4>
 <ul>
     <li>Python (Flask, Pytorch, Aiogram)</li>
+    <li>C++, CUDA: (Yolov4, Darknet)</li>
 	<li>HTML, CSS, JavaScript</li>
 	<li>Nginx, Postrgee.</li>
   
